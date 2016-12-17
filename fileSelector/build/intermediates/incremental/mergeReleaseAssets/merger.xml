@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/home/tomer/Projects/5Project/networklog/fileSelector/src/main/assets"/><source path="/home/tomer/Projects/5Project/networklog/fileSelector/build/generated/assets/shaders/release"/></dataSet><dataSet config="release"><source path="/home/tomer/Projects/5Project/networklog/fileSelector/src/release/assets"/></dataSet></merger>

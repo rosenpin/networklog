@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/home/tomer/Projects/5Project/networklog/networklog/src/main/jniLibs"/></dataSet><dataSet config="debug"><source path="/home/tomer/Projects/5Project/networklog/networklog/src/debug/jniLibs"/></dataSet></merger>
