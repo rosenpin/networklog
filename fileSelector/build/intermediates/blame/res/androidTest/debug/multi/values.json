@@ -1,0 +1,330 @@
+[
+    {
+        "outputFile": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 57,
+                    "endOffset": 108
+                },
+                "from": {
+                    "file": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/values/values.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 57,
+                        "endOffset": 108
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 113,
+                    "endColumn": 54,
+                    "endOffset": 163
+                },
+                "from": {
+                    "file": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/values/values.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 113,
+                        "endColumn": 54,
+                        "endOffset": 163
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 168,
+                    "endColumn": 69,
+                    "endOffset": 233
+                },
+                "from": {
+                    "file": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/values/values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 168,
+                        "endColumn": 69,
+                        "endOffset": 233
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 238,
+                    "endColumn": 54,
+                    "endOffset": 288
+                },
+                "from": {
+                    "file": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/values/values.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 238,
+                        "endColumn": 54,
+                        "endOffset": 288
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 293,
+                    "endColumn": 61,
+                    "endOffset": 350
+                },
+                "from": {
+                    "file": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/values/values.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 293,
+                        "endColumn": 61,
+                        "endOffset": 350
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 7,
+                    "startColumn": 4,
+                    "startOffset": 355,
+                    "endColumn": 78,
+                    "endOffset": 429
+                },
+                "from": {
+                    "file": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/values/values.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 355,
+                        "endColumn": 78,
+                        "endOffset": 429
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 434,
+                    "endColumn": 78,
+                    "endOffset": 508
+                },
+                "from": {
+                    "file": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/values/values.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 434,
+                        "endColumn": 78,
+                        "endOffset": 508
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 513,
+                    "endColumn": 74,
+                    "endOffset": 583
+                },
+                "from": {
+                    "file": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/values/values.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 513,
+                        "endColumn": 74,
+                        "endOffset": 583
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 588,
+                    "endColumn": 54,
+                    "endOffset": 638
+                },
+                "from": {
+                    "file": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/values/values.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 588,
+                        "endColumn": 54,
+                        "endOffset": 638
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 643,
+                    "endColumn": 50,
+                    "endOffset": 689
+                },
+                "from": {
+                    "file": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/values/values.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 643,
+                        "endColumn": 50,
+                        "endOffset": 689
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 694,
+                    "endColumn": 55,
+                    "endOffset": 745
+                },
+                "from": {
+                    "file": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/values/values.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 694,
+                        "endColumn": 55,
+                        "endOffset": 745
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 13,
+                    "startColumn": 4,
+                    "startOffset": 750,
+                    "endColumn": 61,
+                    "endOffset": 807
+                },
+                "from": {
+                    "file": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/values/values.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 750,
+                        "endColumn": 61,
+                        "endOffset": 807
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 812,
+                    "endColumn": 71,
+                    "endOffset": 879
+                },
+                "from": {
+                    "file": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/values/values.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 812,
+                        "endColumn": 71,
+                        "endOffset": 879
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 15,
+                    "startColumn": 4,
+                    "startOffset": 884,
+                    "endColumn": 46,
+                    "endOffset": 926
+                },
+                "from": {
+                    "file": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/values/values.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 884,
+                        "endColumn": 46,
+                        "endOffset": 926
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 16,
+                    "startColumn": 4,
+                    "startOffset": 931,
+                    "endColumn": 45,
+                    "endOffset": 972
+                },
+                "from": {
+                    "file": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/values/values.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 931,
+                        "endColumn": 45,
+                        "endOffset": 972
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 17,
+                    "startColumn": 4,
+                    "startOffset": 977,
+                    "endColumn": 50,
+                    "endOffset": 1023
+                },
+                "from": {
+                    "file": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/values/values.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 977,
+                        "endColumn": 50,
+                        "endOffset": 1023
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 18,
+                    "startColumn": 4,
+                    "startOffset": 1028,
+                    "endColumn": 48,
+                    "endOffset": 1072
+                },
+                "from": {
+                    "file": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/values/values.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 1028,
+                        "endColumn": 48,
+                        "endOffset": 1072
+                    }
+                }
+            }
+        ]
+    }
+]

@@ -813,7 +813,7 @@ public class NetworkLog extends SherlockFragmentActivity {
 
     for(RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
       if(MyLog.enabled) {
-        MyLog.d("Service: " + service.service.getClassName() + "; " + service.pid + "; " + service.clientCount + "; " + service.foreground + "; " + service.process);
+        //MyLog.d("Service: " + service.service.getClassName() + "; " + service.pid + "; " + service.clientCount + "; " + service.foreground + "; " + service.process);
       }
 
       if(serviceName.equals(service.service.getClassName())) {

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.googlecode.networklog"
+    android:versionCode="22501"
+    android:versionName="2.25.1" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="15" />
+
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
+
+    <application
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.DeviceDefault" >
+        <activity
+            android:name="com.googlecode.networklog.NetworkLog"
+            android:alwaysRetainTaskState="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:uiOptions="splitActionBarWhenNarrow" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.googlecode.networklog.Preferences" />
+        <activity
+            android:name="com.googlecode.networklog.ErrorDialogActivity"
+            android:theme="@android:style/Theme.DeviceDefault.Dialog" />
+
+        <receiver android:name="com.googlecode.networklog.BootCompletedReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.googlecode.networklog.NetworkLogService"
+            android:label="NetworkLogService" />
+    </application>
+
+</manifest>

@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/res/merged/androidTest/debug/drawable/fs_folder.png",
+        "source": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/drawable/fs_folder.png"
+    },
+    {
+        "merged": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/res/merged/androidTest/debug/drawable/fs_file.png",
+        "source": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/drawable/fs_file.png"
+    },
+    {
+        "merged": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/res/merged/androidTest/debug/drawable/fs_up_folder.png",
+        "source": "/home/tomer/Projects/5Project/networklog/fileSelector/build/intermediates/bundles/debug/res/drawable/fs_up_folder.png"
+    }
+]

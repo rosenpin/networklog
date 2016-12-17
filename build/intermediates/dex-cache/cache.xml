@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/home/tomer/Projects/5Project/networklog/networklog/build/intermediates/exploded-aar/networklog/library/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="c03f7185dc2f506762d4bbb117eb41f5045ca757">
+        <dex dex="/home/tomer/Projects/5Project/networklog/networklog/build/intermediates/pre-dexed/debug/networklog-library-unspecified_39c37b4c8039cd04dd4924341e08e1b415bb9b60.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/tomer/Projects/5Project/networklog/networklog/build/intermediates/exploded-aar/networklog/fileSelector/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="6bc3ee8fdb0c707b0a5c2cf4cf4f04fa1b944527">
+        <dex dex="/home/tomer/Projects/5Project/networklog/networklog/build/intermediates/pre-dexed/debug/networklog-fileSelector-unspecified_d627b92619c13dacd455856176607a53ebc4411a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/tomer/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.1/support-annotations-22.2.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="61a0ff5c29295ec56d7e0bd3d25d95dbf71b4b2b">
+        <dex dex="/home/tomer/Projects/5Project/networklog/networklog/build/intermediates/pre-dexed/debug/support-annotations-22.2.1_30b05a59563a701463b73393f4aa85283d7488b7.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/tomer/Projects/5Project/networklog/networklog/build/intermediates/exploded-aar/com.actionbarsherlock/actionbarsherlock/4.4.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="af64527b748983a75de9c0756e9768b56b240a49">
+        <dex dex="/home/tomer/Projects/5Project/networklog/networklog/build/intermediates/pre-dexed/debug/com.actionbarsherlock-actionbarsherlock-4.4.0_51579f98e2f0d6260d51ee614c203ac9b524cc36.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/tomer/Projects/5Project/networklog/networklog/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="f8efd0096475e0daf054267b61544e10dc776503">
+        <dex dex="/home/tomer/Projects/5Project/networklog/networklog/build/intermediates/pre-dexed/debug/com.android.support-support-v4-22.2.1_2a725e71fd0fa6ef6ac463b20c436f82c92fa585.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/tomer/Projects/5Project/networklog/networklog/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/libs/internal_impl-22.2.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
+        <dex dex="/home/tomer/Projects/5Project/networklog/networklog/build/intermediates/pre-dexed/debug/internal_impl-22.2.1_a7e0289ae2e639423f4a7b0e269f8b876b208004.jar" />
+    </item>
+
+</items>
