@@ -6,53 +6,95 @@
 
 package com.googlecode.networklog;
 
+import android.content.Context;
+import android.util.Log;
+
 public class LogEntry {
-  int uid;
-  String uidString;
-  String in;
-  String out;
-  String proto;
-  String src;
-  String dst;
-  int len;
-  int spt;
-  int dpt;
-  long timestamp;
-  boolean validated;
-  boolean valid;
+    int uid;
+    String uidString;
+    String in;
+    String out;
+    String proto;
+    String src;
+    String dst;
+    int len;
+    int spt;
+    int dpt;
+    long timestamp;
+    boolean validated;
+    boolean valid;
 
-  public boolean isValid() {
-    if(validated) {
-      return valid;
+    public boolean isValid() {
+        if (validated) {
+            return valid;
+        }
+
+        validated = true;
+        if (StringUtils.contains(in, "{}:=")) {
+            valid = false;
+            return false;
+        }
+
+        if (StringUtils.contains(out, "{}:=")) {
+            valid = false;
+            return false;
+        }
+
+        if (StringUtils.contains(proto, "{}:=")) {
+            valid = false;
+            return false;
+        }
+
+        if (StringUtils.contains(src, "{}:=")) {
+            valid = false;
+            return false;
+        }
+
+        if (StringUtils.contains(dst, "{}:=")) {
+            valid = false;
+            return false;
+        }
+
+        valid = true;
+        return true;
     }
 
-    validated = true;
-    if(StringUtils.contains(in, "{}:=")) {
-      valid = false;
-      return false;
+    boolean empty() {
+        return !(in != null || out != null || proto != null || src != null || spt > 0 || dst != null || dpt > 0 || len > 0 | timestamp != 0);
     }
 
-    if(StringUtils.contains(out, "{}:=")) {
-      valid = false;
-      return false;
-    }
+    public static HostNames hostNames;
 
-    if(StringUtils.contains(proto, "{}:=")) {
-      valid = false;
-      return false;
+    public void print(Context context) {
+        if (!empty())
+            MyLog.printSeperator();
+        else {
+            MyLog.log(this,"Empty");
+            return;
+        }
+        /*if (app.name != null)
+            Log.d("Tomer: package name", String.valueOf(app.name));*/
+        if (in != null)
+            Log.d("Tomer: Network", in);
+        if (out != null)
+            Log.d("Tomer: Network out", out);
+        if (proto != null)
+            Log.d("Tomer: protocol", proto);
+        if (src != null)
+            Log.d("Tomer: source address", src);
+        if (dst != null) {
+            Log.d("Tomer: dest address", dst);
+            if (hostNames == null)
+                hostNames = new HostNames(context);
+            Log.d("Tomer: dest name", hostNames.getName(dst));
+        }
+        if (len != 0)
+            Log.d("Tomer: len", String.valueOf(len));
+        if (spt != 0)
+            Log.d("Tomer: src port", String.valueOf(spt));
+        if (dpt != 0)
+            Log.d("Tomer: dst port", String.valueOf(dpt));
+        if (timestamp != 0)
+            Log.d("Tomer: timestamp", String.valueOf(timestamp));
     }
-
-    if(StringUtils.contains(src, "{}:=")) {
-      valid = false;
-      return false;
-    }
-
-    if(StringUtils.contains(dst, "{}:=")) {
-      valid = false;
-      return false;
-    }
-
-    valid = true;
-    return true;
-  }
 }

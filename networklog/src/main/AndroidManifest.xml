@@ -13,7 +13,7 @@
     android:label="@string/app_name"
     android:icon="@drawable/icon"
     android:theme="@android:style/Theme.DeviceDefault">
-    <activity android:name="NetworkLog"
+    <activity android:name=".Activities.MainActivity"
       android:launchMode="singleTask"
       android:alwaysRetainTaskState="true"
       android:label="@string/app_name"

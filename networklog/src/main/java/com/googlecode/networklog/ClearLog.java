@@ -151,7 +151,7 @@ public class ClearLog
         }
 
         NetworkLog.logFragment.clearLogEntriesOlderThan(timerange);
-        NetworkLog.appFragment.rebuildLogEntries();
+
 
         if(clearLogfile) {
           boolean serviceRunning = false;

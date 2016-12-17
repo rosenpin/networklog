@@ -573,7 +573,6 @@ public class Settings implements OnSharedPreferenceChangeListener {
         MyLog.d("New " + key + " value [" + value + "]");
         NetworkLog.resolveHosts = value;
         NetworkLog.logFragment.refreshAdapter();
-        NetworkLog.appFragment.refreshAdapter();
         return;
       }
 
@@ -582,7 +581,6 @@ public class Settings implements OnSharedPreferenceChangeListener {
         MyLog.d("New " + key + " value [" + value + "]");
         NetworkLog.resolvePorts = value;
         NetworkLog.logFragment.refreshAdapter();
-        NetworkLog.appFragment.refreshAdapter();
         return;
       }
 
@@ -610,23 +608,14 @@ public class Settings implements OnSharedPreferenceChangeListener {
       if(key.equals("presort_by")) {
         String value = prefs.getString(key, "BYTES");
         MyLog.d("New " + key + " value [" + value + "]");
-        NetworkLog.appFragment.preSortBy = Sort.forValue(value);
-        NetworkLog.appFragment.setPreSortMethod();
-        NetworkLog.appFragment.preSortData();
-        NetworkLog.appFragment.sortData();
-        NetworkLog.appFragment.refreshAdapter();
+
         return;
       }
 
       if(key.equals("sort_by")) {
         String value = prefs.getString(key, "BYTES");
         MyLog.d("New " + key + " value [" + value + "]");
-        NetworkLog.appFragment.sortBy = Sort.forValue(value);
-        NetworkLog.appFragment.setSortMethod();
-        NetworkLog.appFragment.preSortData();
-        NetworkLog.appFragment.sortData();
-        NetworkLog.appFragment.sortChildren();
-        NetworkLog.appFragment.refreshAdapter();
+
         return;
       }
 
@@ -679,8 +668,7 @@ public class Settings implements OnSharedPreferenceChangeListener {
       if(key.equals("round_values")) {
         boolean value = prefs.getBoolean(key, true);
         MyLog.d("New " + key + " value [" + value + "]");
-        NetworkLog.appFragment.roundValues = value;
-        NetworkLog.appFragment.refreshAdapter();
+
         return;
       }
 

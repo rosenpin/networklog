@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.robobunny.SeekBarPreference;
-import com.samsung.sprc.fileselector.*;
 
 public class Preferences extends SherlockPreferenceActivity implements OnPreferenceClickListener, OnPreferenceChangeListener {
   private InstanceData data = null;
@@ -127,7 +126,6 @@ public class Preferences extends SherlockPreferenceActivity implements OnPrefere
       OnPreferenceChangeListener changeListener = new OnPreferenceChangeListener() {
         public boolean onPreferenceChange(Preference preference, final Object newValue) {
           if(preference.getKey().equals("history_size")) {
-            NetworkLog.appFragment.clear();
             NetworkLog.logFragment.clear();
             new Thread(new Runnable() {
               public void run() {
@@ -141,7 +139,7 @@ public class Preferences extends SherlockPreferenceActivity implements OnPrefere
             NetworkLog.settings.setGraphInterval(Long.parseLong((String) newValue));
             return true;
           }
-          
+
           if(preference.getKey().equals("viewsize_placeholder")) {
             NetworkLog.settings.setGraphViewsize(Long.parseLong((String) newValue));
             return true;
@@ -245,19 +243,9 @@ public class Preferences extends SherlockPreferenceActivity implements OnPrefere
   public boolean onPreferenceChange(Preference preference, Object newValue) {
     String value = (String) newValue;
 
-    if(preference.getKey().equals("presort_by")) {
-      if(NetworkLog.appFragment != null) {
-        NetworkLog.appFragment.preSortBy = Sort.forValue(value);
-        NetworkLog.appFragment.setPreSortMethod();
-      }
-      return true;
-    }
 
     if(preference.getKey().equals("sort_by")) {
-      if(NetworkLog.appFragment != null) {
-        NetworkLog.appFragment.sortBy = Sort.forValue(value);
-        NetworkLog.appFragment.setSortMethod();
-      }
+
 
       if(NetworkLog.menu != null) {
         com.actionbarsherlock.view.MenuItem item = null;
@@ -323,18 +311,6 @@ public class Preferences extends SherlockPreferenceActivity implements OnPrefere
         NetworkLog.selectToastApps.showDialog(this);
         return true;
       }
-
-      if(preference.getKey().equals("logfile")) {
-        OnHandleFileListener saveListener = new OnHandleFileListener() {
-          public void handleFile(final String filePath) {
-            MyLog.d("Set logfile path to: " + filePath);
-            NetworkLog.settings.setLogFile(filePath);
-          }
-        };
-        new FileSelector(this, FileOperation.SAVE, saveListener, "networklog.txt", new String[] { "*.*", "*.txt" }).show();
-        return true;
-      }
-
       if(preference.getKey().equals("filter_dialog")) {
         new FilterDialog(this);
         return true;

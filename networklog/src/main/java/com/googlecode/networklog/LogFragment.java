@@ -122,8 +122,7 @@ public class LogFragment extends Fragment {
 
             if (appFragmentNeedsRebuild) {
                 appFragmentNeedsRebuild = false;
-                NetworkLog.appFragment.rebuildLogEntries();
-                NetworkLog.appFragment.updaterRunOnce();
+
             }
         }
     };

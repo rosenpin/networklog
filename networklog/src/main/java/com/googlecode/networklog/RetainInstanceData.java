@@ -38,19 +38,6 @@ public class RetainInstanceData {
     historyDialogProgress = NetworkLog.history.dialog_progress;
   }
 
-  /* FeedbackDialog */
-  String feedbackDialogMessage;
-  boolean feedbackDialogAttachLogcat;
-  int feedbackDialogCursorPosition;
-
-  public void retainFeedbackDialogData() {
-    if(NetworkLog.feedbackDialog != null && NetworkLog.feedbackDialog.dialog != null) {
-      feedbackDialogMessage = NetworkLog.feedbackDialog.message.getText().toString();
-      feedbackDialogAttachLogcat = NetworkLog.feedbackDialog.attachLogcat.isChecked();
-      feedbackDialogCursorPosition = NetworkLog.feedbackDialog.message.getSelectionStart();
-    }
-  }
-
   /* ClearLog */
   boolean clearLogDialogShowing;
   boolean clearLogProgressDialogShowing;
@@ -108,7 +95,6 @@ public class RetainInstanceData {
     retainApplicationsTrackerData();
     retainRetainInstanceData();
     retainHistoryLoaderData();
-    retainFeedbackDialogData();
     retainClearLogData();
     retainExportDialogData();
   }

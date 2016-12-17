@@ -71,11 +71,6 @@ public class NetworkLogService extends Service {
     private static int notificationIcon;
     private static LogEntry entry;
     private static Boolean start_foreground = true;
-    static Runnable updateNotificationRunner = new Runnable() {
-        public void run() {
-            updateNotification();
-        }
-    };
     private static Runnable showOnlyToastRunnable;
     private static CancelableRunnable showToastRunnable;
     private static View toastLayout;
@@ -90,37 +85,6 @@ public class NetworkLogService extends Service {
     private PrintWriter logWriter = null;
     private NetStat netstat = new NetStat();
     private FastParser parser = new FastParser();
-
-    public static void updateNotification(int icon) {
-        if (instance != null && handler != null) {
-            notificationIcon = icon;
-            handler.post(updateNotificationRunner);
-        }
-    }
-
-    public static void updateNotification() {
-        if (logfileString.length() > 0) {
-            updateNotification(ThroughputTracker.throughputString + " [" + logfileString + "]");
-        } else {
-            updateNotification(ThroughputTracker.throughputString);
-        }
-    }
-
-    public static void updateNotification(String text) {
-        if (instance == null || context == null || notification == null) {
-            return;
-        }
-
-        Intent i = new Intent(context, NetworkLog.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pi = PendingIntent.getActivity(context, 0, i, 0);
-        notification.setLatestEventInfo(context, context.getResources().getString(R.string.app_name), text, pi);
-        notification.icon = notificationIcon;
-
-        if (start_foreground) {
-            nManager.notify(NOTIFICATION_ID, notification);
-        }
-    }
 
     public static void showToast(final Context context, final Handler handler, final CharSequence text, boolean cancel) {
         if (showToastRunnable == null) {
@@ -213,10 +177,6 @@ public class NetworkLogService extends Service {
             logfileString = context.getResources().getString(R.string.logfile_bad) + e.getMessage();
         }
 
-        if (instance != null && handler != null) {
-            handler.post(updateNotificationRunner);
-        }
-
         if (NetworkLog.handler != null) {
             NetworkLog.handler.post(NetworkLog.updateStatusRunner);
         }
@@ -256,7 +216,7 @@ public class NetworkLogService extends Service {
 
     @Override
     public void onCreate() {
-        MyLog.d("[service] onCreate");
+        MyLog.d(8, "[service] onCreate");
 
         if (NetworkLog.shell == null) {
             NetworkLog.shell = SysUtils.createRootShell(this, "NLServiceRootShell", true);
@@ -323,7 +283,7 @@ public class NetworkLogService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        MyLog.d("[service] onStartCommand");
+        MyLog.d(10, "[service] onStartCommand");
 
         if (!has_root || !has_binaries) {
             return Service.START_NOT_STICKY;
@@ -354,7 +314,7 @@ public class NetworkLogService extends Service {
                     logfile_from_intent = NetworkLog.settings.getLogFile();
                 }
 
-                MyLog.d("[service] NetworkLog service starting [" + logfile_from_intent + "]");
+                MyLog.d(8, "[service] NetworkLog service starting [" + logfile_from_intent + "]");
 
 
                 logfile = logfile_from_intent;
@@ -747,6 +707,8 @@ public class NetworkLogService extends Service {
                 MyLog.d(10, "+++ entry: (" + entry.uid + ") in=" + entry.in + " out=" + entry.out + " " + entry.src + ":" + entry.spt + " -> " + entry.dst + ":" + entry.dpt + " proto=" + entry.proto + " len=" + entry.len);
             }
 
+            entry.print(getApplicationContext());
+
             notifyNewEntry(entry);
         }
     }
@@ -863,7 +825,7 @@ public class NetworkLogService extends Service {
         }
 
         if (Iptables.targets.get("LOG") != null) {
-            Log.d("Logmethod", String.valueOf(NetworkLog.settings.getLogMethod()));
+            MyLog.d("Logmethod", String.valueOf(NetworkLog.settings.getLogMethod()));
 
             switch (NetworkLog.settings.getLogMethod()) {
                 case 1:
@@ -873,7 +835,8 @@ public class NetworkLogService extends Service {
                     loggerShell.sendCommand("cat /proc/kmsg &", InteractiveShell.BACKGROUND);
                     break;
                 default:
-                    loggerShell.sendCommand(binary + " '{NL}' /proc/kmsg &", InteractiveShell.BACKGROUND);
+                    MyLog.log(this, "Using new method");
+                    loggerShell.sendCommand("dmesg -c", InteractiveShell.BACKGROUND);
             }
         } else if (Iptables.targets.get("NFLOG") != null) {
             loggerShell.sendCommand(binary + " 0 &", InteractiveShell.BACKGROUND);
@@ -912,7 +875,7 @@ public class NetworkLogService extends Service {
 
     public boolean startLogging() {
         killLoggerCommand();
-        MyLog.d("adding logging rules");
+        MyLog.d(8, "adding logging rules");
         if (!Iptables.addRules(this)) {
             return false;
         }
@@ -1019,9 +982,7 @@ public class NetworkLogService extends Service {
                     break;
 
                 case MSG_UPDATE_NOTIFICATION:
-
                     MyLog.d("[service] updating notification: " + ((String) msg.obj));
-                    updateNotification((String) msg.obj);
                     break;
 
                 case MSG_TOGGLE_FOREGROUND:
@@ -1050,15 +1011,17 @@ public class NetworkLogService extends Service {
         boolean running = false;
 
         public void stop() {
+            MyLog.d(1, "NetworkLog", "Network logger " + this + " stopping");
             running = false;
         }
 
         public void run() {
-            Log.d("NetworkLog", "Network logger " + this + " starting");
+            MyLog.d(1, "NetworkLog", "Network logger " + this + " starting");
             String result;
             running = true;
 
             while (true) {
+                int counter = 0;
                 while (running /*&& !loggerShell.checkForExit()*/) {
                     if (loggerShell.stdoutAvailable()) {
                         result = loggerShell.readLine();
@@ -1066,14 +1029,21 @@ public class NetworkLogService extends Service {
                         try {
                             Thread.sleep(1500);
                             if (!loggerShell.stdoutAvailable()) {
-                                Log.d("Logger", "Restarting logger command");
-                                killLoggerCommand();
-                                startLoggerCommand();
+                                if (loggerShell.command.hasError())
+                                    MyLog.log(this, "Error in loggershell");
+                                counter++;
+                                if (counter > 3) {
+                                    Log.d("Logger", "Restarting logger command");
+                                    loggerShell.sendCommand("dmesg -c", InteractiveShell.BACKGROUND);
+                                    while (loggerShell.stdoutAvailable()) {
+                                        parseResult(loggerShell.readLine());
+                                    }
+                                    counter = 0;
+                                }
                             }
                         } catch (Exception e) {
                             Log.d("NetworkLog", "NetworkLogger exception while sleeping", e);
                         }
-
                         continue;
                     }
 
@@ -1085,11 +1055,11 @@ public class NetworkLogService extends Service {
                         Log.d("NetworkLog", "Network logger " + this + " read null; exiting");
                         break;
                     }
-
+                    Log.d(NetworkLogService.class.getSimpleName(), "Parsing result");
                     parseResult(result);
                 }
 
-                if (running != false) {
+                if (running) {
                     Log.d("NetworkLog", "Network logger " + this + " terminated unexpectedly, restarting in 5 seconds");
                     try {
                         Thread.sleep(5000);

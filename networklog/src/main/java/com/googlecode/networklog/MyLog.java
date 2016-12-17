@@ -14,11 +14,11 @@ public class MyLog {
     public static String tag = "DefaultNetworkLogTag";
 
     public static void d(String msg) {
-        d(0, tag, msg);
+        d(6, tag, msg);
     }
 
     public static void d(String tag, String msg) {
-        d(0, tag, msg);
+        d(6, tag, msg);
     }
 
     public static void d(int level, String msg) {
@@ -43,5 +43,9 @@ public class MyLog {
         for (int i = 0; i < times; i++) {
             System.out.print(c);
         }
+    }
+
+    public static void log(Object c, String text) {
+        Log.d(c.getClass().getSimpleName(), text);
     }
 }

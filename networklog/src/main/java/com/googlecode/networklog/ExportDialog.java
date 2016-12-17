@@ -29,7 +29,7 @@ import java.util.concurrent.FutureTask;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import com.samsung.sprc.fileselector.*;
+
 
 import au.com.bytecode.opencsv.CSVWriter;
 
@@ -37,7 +37,7 @@ import android.support.v4.app.DialogFragment;
 
 public class ExportDialog
 {
-  public Button startDateButton; 
+  public Button startDateButton;
   public Button endDateButton;
   public Button filenameButton;
   public AlertDialog dialog;
@@ -55,7 +55,7 @@ public class ExportDialog
   public int progress = 0;
   private boolean canceled = false;
 
-  public enum DatePickerMode { START_DATE, END_DATE }; 
+  public enum DatePickerMode { START_DATE, END_DATE };
   public DatePickerMode datePickerMode;
 
   public ExportDialog(final Context context)
@@ -72,7 +72,7 @@ public class ExportDialog
     GregorianCalendar today = new GregorianCalendar();
     startDate = new GregorianCalendar(today.get(Calendar.YEAR), today.get(Calendar.MONTH), 1).getTime();
     endDate = today.getTime();
-    file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator 
+    file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator
         + defaultFilename());
 
     startDateButton.setText(dateDisplayFormat.format(startDate));
@@ -115,18 +115,6 @@ public class ExportDialog
       }
     });
 
-    filenameButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View v) {
-        OnHandleFileListener saveListener = new OnHandleFileListener() {
-          public void handleFile(final String filePath) {
-            file = new File(filePath);
-            filenameButton.setText(filePath);
-          }
-        };
-        new FileSelector(context, FileOperation.SAVE, saveListener, defaultFilename(), new String[] { "*.*", "*.csv" }).show();
-      }
-    });
-
     AlertDialog.Builder builder = new AlertDialog.Builder(context);
     builder.setTitle(res.getString(R.string.export_title))
       .setView(view)
@@ -146,7 +134,7 @@ public class ExportDialog
   }
 
   public void restoreDatePickerListener() {
-    DatePickerDialog.OnDateSetListener listener; 
+    DatePickerDialog.OnDateSetListener listener;
     DatePickerFragment dpf = (DatePickerFragment) NetworkLog.instance.getSupportFragmentManager()
       .findFragmentByTag("exportDatePicker");
 
@@ -267,7 +255,7 @@ public class ExportDialog
         SysUtils.showError(context, context.getResources().getString(R.string.export_error_title), "Logfile empty -- nothing to export");
         return;
       }
-      
+
       long possible_end_pos = loader.seekToTimestampPosition(endDate.getTime(), true);
       final long start_pos = loader.seekToTimestampPosition(startDate.getTime());
 
@@ -392,6 +380,6 @@ public class ExportDialog
       }, "ExportLogfile").start();
     } catch (Exception e) {
       SysUtils.showError(context, context.getResources().getString(R.string.export_error_title), "Error exporting logfile: " + e.getMessage());
-    } 
+    }
   }
 }

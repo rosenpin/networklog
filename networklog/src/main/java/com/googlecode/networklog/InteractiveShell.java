@@ -28,7 +28,7 @@ public class InteractiveShell {
     }
 
     public InteractiveShell(String shell, String tag) {
-        MyLog.d("Creating new InteractiveShell [" + tag + "]");
+        MyLog.d(10, "Creating new InteractiveShell [" + tag + "]");
         this.shell = shell;
         this.tag = tag;
     }
@@ -38,7 +38,7 @@ public class InteractiveShell {
     }
 
     public void start() {
-        MyLog.d("Starting InteractiveShell [" + tag + "]");
+        MyLog.d(10, "Starting InteractiveShell [" + tag + "]");
         command = new ShellCommand(new String[]{shell}, tag);
         command.start(false);
     }
@@ -164,7 +164,7 @@ public class InteractiveShell {
         } else if (line.startsWith("..EOF..")) {
             exitval = Integer.parseInt(line.substring(7, line.length()));
             if (MyLog.enabled) {
-                MyLog.d("InteractiveShell [" + tag + "] command exited " + exitval);
+                MyLog.d(10, "InteractiveShell [" + tag + "] command exited " + exitval);
             }
             return null;
         } else {

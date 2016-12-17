@@ -217,7 +217,6 @@ public class FilterDialog implements DialogInterface.OnDismissListener
       FilterUtils.buildList(NetworkLog.filterTextInclude, NetworkLog.filterTextIncludeList);
       FilterUtils.buildList(NetworkLog.filterTextExclude, NetworkLog.filterTextExcludeList);
 
-      NetworkLog.appFragment.setFilter("");
       NetworkLog.logFragment.setFilter("");
 
       NetworkLog.updateStatusText();

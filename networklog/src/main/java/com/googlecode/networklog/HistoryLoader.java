@@ -85,7 +85,7 @@ public class HistoryLoader {
 
       dialog_max = (int)(length - starting_pos);
       dialog_progress = 0;
-      
+
       FutureTask createDialog = createProgressDialog(context);
       createDialog.get(); // wait until createDialog task completes (ensure dialog is created and shown before continuing)
 
@@ -95,9 +95,6 @@ public class HistoryLoader {
         public void run() {
           NetworkLog.logFragment.stopUpdater();
           NetworkLog.logFragment.setDoNotRefresh(true);
-          NetworkLog.appFragment.stopUpdater();
-          NetworkLog.appFragment.setDoNotRefresh(true);
-
           LogEntry entry;
           long processed_so_far = 0;
           long progress_increment_size = (long)((length - starting_pos_final) * 0.01);
@@ -152,14 +149,12 @@ public class HistoryLoader {
                 Log.d("NetworkLog", "Load file elapsed: " + elapsed);
 
                 NetworkLog.logFragment.setDoNotRefresh(false);
-                NetworkLog.appFragment.setDoNotRefresh(false);
 
                 StringPool.clearCharPool();
                 NetworkLog.logFragment.appFragmentNeedsRebuild = true;
                 NetworkLog.logFragment.updaterRunOnce();
 
                 NetworkLog.logFragment.startUpdater();
-                NetworkLog.appFragment.startUpdater();
 
                 elapsed = System.currentTimeMillis() - start;
                 Log.d("NetworkLog", "Load history elapsed: " + elapsed);
