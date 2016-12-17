@@ -665,7 +665,7 @@ public class NetworkLogService extends Service {
                                 if (loggerShell.command.hasError())
                                     MyLog.log(this, "Error in loggershell");
                                 counter++;
-                                if (counter > 3) {
+                                if (counter > 1) {
                                     Log.d("Logger", "Restarting logger command");
                                     loggerShell.sendCommand("dmesg -c", InteractiveShell.BACKGROUND);
                                     while (loggerShell.stdoutAvailable()) {

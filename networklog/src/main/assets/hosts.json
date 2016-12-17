@@ -1,6 +1,24 @@
 {
-"domains":[
-    {"address":"31.13.93.3", "name":"www.facebook.com"},
-    {"address":"151.101.17.140","name":"www.reddit.com"},
-    {"address":"31.13.93.52","name":"www.instagram.com"}
-]}
+  "domains": [
+    {
+      "address": "31.13.93.3",
+      "name": "www.facebook.com"
+    },
+    {
+      "address": "151.101.17.140",
+      "name": "www.reddit.com"
+    },
+    {
+      "address": "31.13.93.52",
+      "name": "www.instagram.com"
+    },
+    {
+      "address": "66.135.213.196",
+      "name": "www.ebay.com"
+    },
+    {
+      "address":"192.30.253.113",
+      "name":"www.github.com"
+    }
+  ]
+}
