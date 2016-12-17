@@ -12,7 +12,6 @@ public class CharArray implements Comparable<CharArray> {
   char[] value;
   int offset;
   int length;
-  char[] intBuffer = new char[32];
 
   public CharArray() {
     value = null;
@@ -20,17 +19,6 @@ public class CharArray implements Comparable<CharArray> {
     length = 0;
   }
 
-  public CharArray(int size) {
-    value = new char[size];
-    offset = 0;
-    length = 0;
-  }
-
-  public CharArray(char[] value, int offset, int length) {
-    this.value = value;
-    this.offset = offset;
-    this.length = length;
-  }
 
   public String toString() {
     return new String(value, offset, length);
@@ -86,99 +74,6 @@ public class CharArray implements Comparable<CharArray> {
     } else {
       return 0;
     }
-  }
-
-  public CharArray append(char[] targetValue, int targetOffset, int targetLength) {
-    int i = targetOffset;
-    int end = targetOffset + targetLength;
-
-    while(i < end) {
-      if(length >= value.length) {
-        throw new ArrayIndexOutOfBoundsException(length);
-      }
-      value[length++] = targetValue[i++];
-    }
-
-    return this;
-  }
-
-  public CharArray append(String string) {
-    if(string == null) {
-      return this;
-    }
-
-    int targetLength = string.length();
-    int i = 0;
-
-    while(i < targetLength) {
-      if(length >= value.length) {
-        throw new ArrayIndexOutOfBoundsException(length);
-      }
-      value[length++] = string.charAt(i++);
-    }
-
-    return this;
-  }
-
-  public CharArray append(int intval) {
-    int intPos = 0;
-    boolean negative = false;
-
-    if(intval < 0) {
-      negative = true;
-      intval = Math.abs(intval);
-    }
-
-    int val;
-
-    // convert int to char[] (note: will be reversed)
-    if(intval == 0) {
-      intBuffer[intPos++] = '0';
-    } else {
-      while(intval != 0) {
-        val = intval % 10;
-        intBuffer[intPos++] = (char) ('0' + val);
-        intval /= 10;
-      }
-    }
-
-    if(negative == true) {
-      intBuffer[intPos++] = '-';
-    }
-
-    // reverse intBuffer so number is in correct format
-    char temp;
-    int right;
-    for(int left = 0; left < intPos / 2; left++) {
-      temp = intBuffer[left];
-      right = intPos - left - 1;
-      intBuffer[left] = intBuffer[right];
-      intBuffer[right] = temp;
-    }
-
-    // append intBuffer to value
-    for(int i = 0; i < intPos; i++) {
-      if(length >= value.length) {
-        throw new ArrayIndexOutOfBoundsException(length);
-      }
-      value[length++] = intBuffer[i];
-    }
-
-    return this;
-  }
-
-  public CharArray append(char charval) {
-    if(length < value.length) {
-      value[length++] = charval;
-    } else {
-      throw new ArrayIndexOutOfBoundsException(length);
-    }
-
-    return this;
-  }
-
-  public void reset() {
-    length = 0;
   }
 
   public void setValue(char[] value, int offset, int length) {

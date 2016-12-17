@@ -295,14 +295,6 @@ public class SysUtils {
 
             Log.d("NetworkLog", "Test for grep exit val: " + command.exitval);
 
-            if (command.exitval < 0 || command.exitval > 2) {
-                // use cat if grep not found
-                NetworkLog.settings.setLogMethod(2);
-            } else {
-                // use grep
-                NetworkLog.settings.setLogMethod(1);
-            }
-
             try {
                 FileOutputStream fos = context.openFileOutput("samsung_fixed", Context.MODE_PRIVATE);
                 fos.close();

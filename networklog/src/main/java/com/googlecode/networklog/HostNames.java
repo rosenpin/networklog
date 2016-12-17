@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HostNames {
-    JSONObject jsonData;
-    ArrayList<HashMap<String, String>> hosts;
-    NetworkResolver resolver;
+    private JSONObject jsonData;
+    private ArrayList<HashMap<String, String>> hosts;
+    private NetworkResolver resolver;
 
     public HostNames(Context context) {
         resolver = new NetworkResolver();
@@ -47,8 +47,8 @@ public class HostNames {
             if (m.get("address").equals(address))
                 return m.get("name");
         }
-        String resolvedAddr = resolver.getResolvedAddress(address);
-        return resolvedAddr != null ? resolvedAddr : "Not found!";
+        String resolvedAddr = resolver.resolveAddress(address, null);
+        return resolvedAddr != null ? resolvedAddr : address;
     }
 
     public String loadJSONFromAsset(Context context) {

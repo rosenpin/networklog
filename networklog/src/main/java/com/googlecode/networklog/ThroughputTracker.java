@@ -94,52 +94,9 @@ public class ThroughputTracker {
             }
             MyLog.d(6, "Throughput: " + throughputString);
         }
-
-        int icon;
-        if (upload > 0 && download > 0) {
-            icon = R.drawable.up1_down1;
-        } else if (upload > 0 && download == 0) {
-            icon = R.drawable.up1_down0;
-        } else if (upload == 0 && download > 0) {
-            icon = R.drawable.up0_down1;
-        } else {
-            icon = R.drawable.up0_down0;
-        }
-
-        NetworkLog.updateStatus(icon);
     }
 
-    public static void updateThroughputBps() {
-        if (updater != null) {
-            synchronized (throughputMap) {
-                for (ThroughputData item : throughputMap.values()) {
-                    if (item.displayed == false) {
-                        if (NetworkLogService.throughputBps) {
-                            item.upload *= Byte.SIZE;
-                            item.download *= Byte.SIZE;
-                        } else {
-                            item.upload /= Byte.SIZE;
-                            item.download /= Byte.SIZE;
-                        }
-                    }
-                }
-
-                if (NetworkLogService.throughputBps) {
-                    updater.totalUpload *= Byte.SIZE;
-                    updater.totalDownload *= Byte.SIZE;
-                } else {
-                    updater.totalUpload /= Byte.SIZE;
-                    updater.totalDownload /= Byte.SIZE;
-                }
-
-                updateThroughput(updater.totalUpload, updater.totalDownload);
-            }
-        }
-
-
-    }
-
-    static class ThroughputData {
+    private static class ThroughputData {
         ApplicationsTracker.AppEntry app;
         String address;
         long upload;
@@ -148,7 +105,7 @@ public class ThroughputTracker {
         boolean displayed;
     }
 
-    static class ThroughputUpdater implements Runnable {
+    private static class ThroughputUpdater implements Runnable {
         boolean running = false;
         long totalUpload;
         long totalDownload;
@@ -196,27 +153,26 @@ public class ThroughputTracker {
 
                             }
 
-                            if (NetworkLogService.toastBlockedApps.get(value.app.packageName) == null) {
-                                showToast = true;
+                            showToast = true;
 
-                                if (NetworkLogService.invertUploadDownload) {
-                                    throughput = StringUtils.formatToBytes(value.download) + (NetworkLogService.throughputBps ? "bps/" : "B/") + StringUtils.formatToBytes(value.upload) + (NetworkLogService.throughputBps ? "bps" : "B");
-                                } else {
-                                    throughput = StringUtils.formatToBytes(value.upload) + (NetworkLogService.throughputBps ? "bps/" : "B/") + StringUtils.formatToBytes(value.download) + (NetworkLogService.throughputBps ? "bps" : "B");
-                                }
-
-                                if (MyLog.enabled && MyLog.level >= 2 && !value.displayed) {
-                                    MyLog.d(2, value.app.name + " throughput: " + throughput);
-                                }
-
-                                if (NetworkLogService.toastShowAddress) {
-                                    toastString.append(newline + "<b>" + value.app.name + "</b>: <u>" + value.address + "</u> <i>" + throughput + "</i>");
-                                } else {
-                                    toastString.append(newline + "<b>" + value.app.name + "</b>: " + throughput);
-                                }
-
-                                newline = "<br>";
+                            if (NetworkLogService.invertUploadDownload) {
+                                throughput = StringUtils.formatToBytes(value.download) + (NetworkLogService.throughputBps ? "bps/" : "B/") + StringUtils.formatToBytes(value.upload) + (NetworkLogService.throughputBps ? "bps" : "B");
+                            } else {
+                                throughput = StringUtils.formatToBytes(value.upload) + (NetworkLogService.throughputBps ? "bps/" : "B/") + StringUtils.formatToBytes(value.download) + (NetworkLogService.throughputBps ? "bps" : "B");
                             }
+
+                            if (MyLog.enabled && MyLog.level >= 2 && !value.displayed) {
+                                MyLog.d(2, value.app.name + " throughput: " + throughput);
+                            }
+
+                            if (NetworkLogService.toastShowAddress) {
+                                toastString.append(newline + "<b>" + value.app.name + "</b>: <u>" + value.address + "</u> <i>" + throughput + "</i>");
+                            } else {
+                                toastString.append(newline + "<b>" + value.app.name + "</b>: " + throughput);
+                            }
+
+                            newline = "<br>";
+
 
                             value.displayed = true;
 

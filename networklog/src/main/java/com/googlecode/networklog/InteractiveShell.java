@@ -33,10 +33,6 @@ public class InteractiveShell {
         this.tag = tag;
     }
 
-    public ShellCommand getShell() {
-        return command;
-    }
-
     public void start() {
         MyLog.d(10, "Starting InteractiveShell [" + tag + "]");
         command = new ShellCommand(new String[]{shell}, tag);

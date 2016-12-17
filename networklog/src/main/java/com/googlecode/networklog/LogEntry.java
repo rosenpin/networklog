@@ -80,10 +80,12 @@ public class LogEntry {
             Log.d("Tomer: Network out", out);
         if (proto != null)
             Log.d("Tomer: protocol", proto);
-        if (src != null)
-            Log.d("Tomer: source address", src);
+        if (src != null) {
+            if (hostNames == null)
+                hostNames = new HostNames(context);
+            Log.d("Tomer: source name", hostNames.getName(src));
+        }
         if (dst != null) {
-            Log.d("Tomer: dest address", dst);
             if (hostNames == null)
                 hostNames = new HostNames(context);
             Log.d("Tomer: dest name", hostNames.getName(dst));

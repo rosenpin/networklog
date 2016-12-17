@@ -146,11 +146,6 @@ public class ApplicationsTracker {
         packageMap.remove(packageName);
         iconMap.remove(packageName);
 
-        if (NetworkLog.logFragment != null) {
-            NetworkLog.logFragment.removeApp(packageName);
-        }
-
-
     }
 
     public static void addApp(Context context, String packageName) {
@@ -240,11 +235,6 @@ public class ApplicationsTracker {
 
             for (final ApplicationInfo app : apps) {
                 MyLog.d(8, "Processing app " + app);
-
-                if (NetworkLog.initRunner != null && NetworkLog.initRunner.running == false) {
-                    MyLog.d("[LoadApps] Initialization aborted");
-                    return;
-                }
 
                 final int progress = ++count;
                 if (handler != null) {

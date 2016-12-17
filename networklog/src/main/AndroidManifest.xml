@@ -23,7 +23,6 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <activity android:name="Preferences" />
     <activity android:name="ErrorDialogActivity"
       android:theme="@android:style/Theme.DeviceDefault.Dialog" />
     <receiver android:name=".BootCompletedReceiver">

@@ -23,7 +23,7 @@ public class Iptables {
             return true;
         }
 
-        targets = new HashMap<String, String>();
+        targets = new HashMap<>();
 
         if (!NetworkLog.shell.sendCommand("cat /proc/net/ip_tables_targets")) {
             SysUtils.showError(context, context.getResources().getString(R.string.iptables_error_check_rules), NetworkLog.shell.getError(true));
@@ -124,12 +124,6 @@ public class Iptables {
                 return false;
             }
         }
-
-        for (Map.Entry<String, String> entry : NetworkLogService.blockedApps.entrySet()) {
-            Integer appId = ApplicationsTracker.packageMap.get(entry.getValue()).uid;
-            ignoreApp(context, appId);
-        }
-
         return true;
     }
 

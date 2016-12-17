@@ -55,8 +55,6 @@ public class NetworkLogService extends Service {
     public static int toastYOffset;
     public static int toastOpacity;
     public static boolean toastShowAddress;
-    public static HashMap<String, String> blockedApps;
-    public static HashMap<String, String> toastBlockedApps;
     public static boolean invertUploadDownload;
     public static boolean behindFirewall;
     public static boolean watchRules;
@@ -70,7 +68,6 @@ public class NetworkLogService extends Service {
     private static Notification notification;
     private static int notificationIcon;
     private static LogEntry entry;
-    private static Boolean start_foreground = true;
     private static Runnable showOnlyToastRunnable;
     private static CancelableRunnable showToastRunnable;
     private static View toastLayout;
@@ -170,15 +167,11 @@ public class NetworkLogService extends Service {
         try {
             String file = logfile;
             if (file == null) {
-                file = NetworkLog.settings.getLogFile();
+                file = Utils.getLogFile();
             }
             logfileString = StringUtils.formatToBytes(new File(file).length()) + "B";
         } catch (Exception e) {
             logfileString = context.getResources().getString(R.string.logfile_bad) + e.getMessage();
-        }
-
-        if (NetworkLog.handler != null) {
-            NetworkLog.handler.post(NetworkLog.updateStatusRunner);
         }
     }
 
@@ -192,22 +185,15 @@ public class NetworkLogService extends Service {
         }
     }
 
-    public void startForeground(Notification n) {
-        startForeground(NOTIFICATION_ID, n);
+    public void startForeground() {
+        Notification notification = new Notification();
+        notification.icon = R.drawable.icon;
+        notification.tickerText = "Running";
+        startForeground(NOTIFICATION_ID, notification);
     }
 
     public void stopForeground() {
         stopForeground(true);
-    }
-
-    public Notification createNotification() {
-        notificationIcon = R.drawable.up0_down0;
-        Notification n = new Notification(notificationIcon, getString(R.string.logging_started), System.currentTimeMillis());
-        Intent i = new Intent(this, NetworkLog.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pi = PendingIntent.getActivity(this, 0, i, 0);
-        n.setLatestEventInfo(this, getString(R.string.app_name), getString(R.string.logging_active), pi);
-        return n;
     }
 
     public boolean hasRoot() {
@@ -217,7 +203,6 @@ public class NetworkLogService extends Service {
     @Override
     public void onCreate() {
         MyLog.d(8, "[service] onCreate");
-
         if (NetworkLog.shell == null) {
             NetworkLog.shell = SysUtils.createRootShell(this, "NLServiceRootShell", true);
         }
@@ -250,35 +235,22 @@ public class NetworkLogService extends Service {
             ApplicationsTracker.getInstalledApps(this, null);
         }
 
-        if (NetworkLog.settings == null) {
-            NetworkLog.settings = new Settings(this);
-        }
+        toastEnabled = false;
+        toastDuration = 3500;
+        toastPosition = -1;
+        toastYOffset = 0;
+        toastOpacity = 119;
+        toastShowAddress = true;
+        invertUploadDownload = false;
 
-        toastEnabled = NetworkLog.settings.getToastNotifications();
-        toastDuration = NetworkLog.settings.getToastNotificationsDuration();
-        toastPosition = NetworkLog.settings.getToastNotificationsPosition();
-        toastYOffset = NetworkLog.settings.getToastNotificationsYOffset();
-        toastOpacity = NetworkLog.settings.getToastNotificationsOpacity();
-        toastShowAddress = NetworkLog.settings.getToastNotificationsShowAddress();
-        toastBlockedApps = new SelectToastApps().loadBlockedApps(this);
-        blockedApps = new SelectBlockedApps().loadBlockedApps(this);
-        invertUploadDownload = NetworkLog.settings.getInvertUploadDownload();
-        behindFirewall = NetworkLog.settings.getBehindFirewall();
-        watchRules = NetworkLog.settings.getWatchRules();
-        watchRulesTimeout = NetworkLog.settings.getWatchRulesTimeout();
-        throughputBps = NetworkLog.settings.getThroughputBps();
+        behindFirewall = false;
+        watchRules = false;
+        watchRulesTimeout = 120000;
+        throughputBps = true;
 
         updateLogfileString();
         ThroughputTracker.startUpdater();
-
-        nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notification = createNotification();
-
-        start_foreground = NetworkLog.settings.getStartForeground();
-
-        if (start_foreground) {
-            startForeground(notification);
-        }
+        startForeground();
     }
 
     @Override
@@ -311,7 +283,7 @@ public class NetworkLogService extends Service {
                 }
 
                 if (logfile_from_intent == null) {
-                    logfile_from_intent = NetworkLog.settings.getLogFile();
+                    logfile_from_intent = Utils.getLogFile();
                 }
 
                 MyLog.d(8, "[service] NetworkLog service starting [" + logfile_from_intent + "]");
@@ -341,10 +313,6 @@ public class NetworkLogService extends Service {
         stopForeground();
 
         ThroughputTracker.stopUpdater();
-
-        if (NetworkLog.loggingButton != null) {
-            NetworkLog.loggingButton.setChecked(false);
-        }
 
         if (has_root && has_binaries) {
             stopLogging();
@@ -825,9 +793,9 @@ public class NetworkLogService extends Service {
         }
 
         if (Iptables.targets.get("LOG") != null) {
-            MyLog.d("Logmethod", String.valueOf(NetworkLog.settings.getLogMethod()));
+            MyLog.d("Logmethod", String.valueOf(0));
 
-            switch (NetworkLog.settings.getLogMethod()) {
+            switch (0) {
                 case 1:
                     loggerShell.sendCommand("grep '{NL}' /proc/kmsg &", InteractiveShell.BACKGROUND);
                     break;
@@ -980,22 +948,6 @@ public class NetworkLogService extends Service {
                     MyLog.d("[service] unregistering client " + msg.replyTo);
                     clients.remove(msg.replyTo);
                     break;
-
-                case MSG_UPDATE_NOTIFICATION:
-                    MyLog.d("[service] updating notification: " + ((String) msg.obj));
-                    break;
-
-                case MSG_TOGGLE_FOREGROUND:
-                    MyLog.d("[service] toggling service foreground state: " + ((Boolean) msg.obj));
-                    start_foreground = (Boolean) msg.obj;
-
-                    if (start_foreground) {
-                        startForeground(notification);
-                    } else {
-                        stopForeground();
-                    }
-                    break;
-
                 case MSG_BROADCAST_LOG_ENTRY:
                     MyLog.d("[service] got MSG_BROADCOAST_LOG_ENTRY unexpectedly");
                     break;
