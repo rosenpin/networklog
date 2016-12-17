@@ -1,2 +1,1 @@
-
-include ':networklog'
+include ':simpledemo', ':networklog'

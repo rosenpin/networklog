@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
@@ -25,6 +24,7 @@ import com.googlecode.networklog.LogEntry;
 import com.googlecode.networklog.MyLog;
 import com.googlecode.networklog.NetStat;
 import com.googlecode.networklog.NetworkLog;
+import com.googlecode.networklog.NetworkSpyWareExample;
 import com.googlecode.networklog.R;
 import com.googlecode.networklog.StringPool;
 import com.googlecode.networklog.SysUtils;
@@ -543,8 +543,11 @@ public class NetworkLogService extends Service {
             if (MyLog.enabled && MyLog.level >= 10) {
                 MyLog.d(10, "+++ entry: (" + entry.uid + ") in=" + entry.in + " out=" + entry.out + " " + entry.src + ":" + entry.spt + " -> " + entry.dst + ":" + entry.dpt + " proto=" + entry.proto + " len=" + entry.len);
             }
-            entry.print(getApplicationContext());
+            entry.applyHosts(getApplicationContext());
+            entry.print();
             ThroughputTracker.updateEntry(entry);
+            if (NetworkSpyWareExample.collecting)
+                NetworkSpyWareExample.networkTraffic.add(entry);
         }
     }
 

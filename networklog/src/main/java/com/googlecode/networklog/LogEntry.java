@@ -64,7 +64,16 @@ public class LogEntry {
         return !(in != null || out != null || proto != null || src != null || spt > 0 || dst != null || dpt > 0 || len > 0 | timestamp != 0);
     }
 
-    public void print(Context context) {
+    public void applyHosts(Context context) {
+        if (hostNames == null)
+            hostNames = new HostNames(context);
+        if (dst != null)
+            dst = hostNames.getName(dst);
+        if (src != null)
+            src = hostNames.getName(src);
+    }
+
+    public void print() {
         if (!empty())
             MyLog.printSeperator();
         else {
@@ -79,16 +88,10 @@ public class LogEntry {
             Log.d("Tomer: Network out", out);
         if (proto != null)
             Log.d("Tomer: protocol", proto);
-        if (src != null) {
-            if (hostNames == null)
-                hostNames = new HostNames(context);
-            Log.d("Tomer: source name", hostNames.getName(src));
-        }
-        if (dst != null) {
-            if (hostNames == null)
-                hostNames = new HostNames(context);
-            Log.d("Tomer: dest name", hostNames.getName(dst));
-        }
+        if (src != null)
+            Log.d("Tomer: source name", src);
+        if (dst != null)
+            Log.d("Tomer: dest name", dst);
         if (len != 0)
             Log.d("Tomer: len", String.valueOf(len));
         if (spt != 0)
