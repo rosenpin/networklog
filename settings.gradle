@@ -1,3 +1,2 @@
-include ':fileSelector'
-include ':library'
+
 include ':networklog'

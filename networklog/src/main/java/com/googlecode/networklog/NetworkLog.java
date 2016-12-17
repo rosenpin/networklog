@@ -9,7 +9,7 @@ package com.googlecode.networklog;
 import android.os.Handler;
 
 public class NetworkLog {
-    public static RetainInstanceData data;
+    static RetainInstanceData data;
     static Handler handler;
-    static InteractiveShell shell;
+    public static InteractiveShell shell;
 }

@@ -6,19 +6,26 @@
 
 package com.googlecode.networklog;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipInputStream;
+
+import static android.content.Context.ACTIVITY_SERVICE;
 
 public class SysUtils {
     public static String iptablesBinary;
@@ -280,28 +287,45 @@ public class SysUtils {
                 .putExtra("title", title)
                 .putExtra("message", message));
     }
+    public static String getLogFile() {
+        return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "networklog.txt";
+    }
 
-    public static void applySamsungFix(final Context context) {
-        if (Build.BRAND.toLowerCase().contains("samsung") || Build.MANUFACTURER.toLowerCase().contains("samsung")) {
-            try {
-                FileInputStream fis = context.openFileInput("samsung_fixed");
-                // fix already applied
-                fis.close();
-                return;
-            } catch (Exception e) { /* ignored */ }
+    public static ArrayList<String> getLocalIpAddresses() {
+        MyLog.d("getLocalIpAddresses");
+        ArrayList<String> localIpAddrs = new ArrayList<String>();
 
-            ShellCommand command = new ShellCommand(new String[]{"grep"}, "TestForGrep");
-            command.start(true);
+        try {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
+                NetworkInterface intf = en.nextElement();
+                MyLog.d("Network interface found: " + intf.toString());
 
-            Log.d("NetworkLog", "Test for grep exit val: " + command.exitval);
+                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    MyLog.d("InetAddress: " + inetAddress.toString());
 
-            try {
-                FileOutputStream fos = context.openFileOutput("samsung_fixed", Context.MODE_PRIVATE);
-                fos.close();
-                return;
-            } catch (Exception e) {
-                Log.w("NetworkLog", "Exception saving record of applying Samsung fix", e);
+                    if (!inetAddress.isLoopbackAddress()) {
+                        MyLog.d("Adding local IP address: [" + inetAddress.getHostAddress() + "]");
+                        localIpAddrs.add(inetAddress.getHostAddress());
+                    }
+                }
+            }
+        } catch (SocketException ex) {
+            Log.e("NetworkLog", ex.toString());
+        }
+        return localIpAddrs;
+    }
+
+    public static boolean isServiceRunning(Context context, String serviceName) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
+
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            MyLog.d("Service: " + service.service.getClassName() + "; " + service.pid + "; " + service.clientCount + "; " + service.foreground + "; " + service.process);
+            if (serviceName.equals(service.service.getClassName())) {
+                return true;
             }
         }
+
+        return false;
     }
 }

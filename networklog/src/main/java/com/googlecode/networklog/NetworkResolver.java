@@ -330,7 +330,7 @@ public class NetworkResolver {
             synchronized (hostUpdatersMap) {
                 ArrayList<NetworkResolverUpdater> updaters = hostUpdatersMap.get(address);
                 if (updaters == null) {
-                    updaters = new ArrayList<NetworkResolverUpdater>();
+                    updaters = new ArrayList<>();
                     hostUpdatersMap.put(address, updaters);
                 }
                 updaters.add(updater);
@@ -369,9 +369,7 @@ public class NetworkResolver {
                             resolvingHostMap.remove(address);
                         }
 
-                        if (MyLog.enabled && MyLog.level >= 1) {
-                            MyLog.d(1, "Resolved " + address + " to " + resolved);
-                        }
+                        MyLog.d(1, "Resolved " + address + " to " + resolved);
 
                         synchronized (hostUpdatersMap) {
                             ArrayList<NetworkResolverUpdater> updaters = hostUpdatersMap.get(address);
@@ -395,26 +393,6 @@ public class NetworkResolver {
             return null;
         } else {
             return resolved;
-        }
-    }
-
-    public String resolveService(String service) {
-        String name = serviceMap.get(service);
-
-        if (name == null) {
-            return service;
-        } else {
-            return name;
-        }
-    }
-
-    public String resolveProtocol(String protocol) {
-        String name = protocolMap.get(protocol);
-
-        if (name == null) {
-            return protocol;
-        } else {
-            return name;
         }
     }
 }

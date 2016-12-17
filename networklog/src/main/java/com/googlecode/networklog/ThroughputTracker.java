@@ -8,6 +8,8 @@ package com.googlecode.networklog;
 
 import android.util.Log;
 
+import com.googlecode.networklog.Services.NetworkLogService;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -23,34 +25,34 @@ public class ThroughputTracker {
     public static void updateEntry(LogEntry entry) {
         appEntry = ApplicationsTracker.uidMap.get(entry.uidString);
 
-        if (appEntry == null) {
+        if(appEntry == null) {
             Log.w("NetworkLog", "[ThroughputTracker] No app entry for uid " + entry.uidString);
             return;
         }
 
-        synchronized (throughputMap) {
+        synchronized(throughputMap) {
             ThroughputData throughput = throughputMap.get(appEntry.packageName);
 
-            if (throughput == null) {
+            if(throughput == null) {
                 throughput = new ThroughputData();
                 throughput.app = appEntry;
                 throughputMap.put(appEntry.packageName, throughput);
             }
 
-            if (throughput.displayed == true) {
+            if(throughput.displayed == true) {
                 throughput.download = 0;
                 throughput.upload = 0;
             }
 
-            if (entry.in != null && entry.in.length() > 0) {
-                if (NetworkLogService.throughputBps) {
+            if(entry.in != null && entry.in.length() > 0) {
+                if(NetworkLogService.throughputBps) {
                     throughput.download += entry.len * Byte.SIZE;
                 } else {
                     throughput.download += entry.len;
                 }
                 throughput.address = entry.src + ":" + entry.spt;
             } else {
-                if (NetworkLogService.throughputBps) {
+                if(NetworkLogService.throughputBps) {
                     throughput.upload += entry.len * Byte.SIZE;
                 } else {
                     throughput.upload += entry.len;
@@ -58,10 +60,10 @@ public class ThroughputTracker {
                 throughput.address = entry.dst + ":" + entry.dpt;
             }
 
-            throughput.clearTime = System.currentTimeMillis() + NetworkLogService.toastDuration;
             throughput.displayed = false;
         }
     }
+
 
     public static void startUpdater() {
         if (updater != null) {
@@ -161,9 +163,9 @@ public class ThroughputTracker {
                                 throughput = StringUtils.formatToBytes(value.upload) + (NetworkLogService.throughputBps ? "bps/" : "B/") + StringUtils.formatToBytes(value.download) + (NetworkLogService.throughputBps ? "bps" : "B");
                             }
 
-                            if (MyLog.enabled && MyLog.level >= 2 && !value.displayed) {
+
                                 MyLog.d(2, value.app.name + " throughput: " + throughput);
-                            }
+
 
                             if (NetworkLogService.toastShowAddress) {
                                 toastString.append(newline + "<b>" + value.app.name + "</b>: <u>" + value.address + "</u> <i>" + throughput + "</i>");
@@ -179,10 +181,6 @@ public class ThroughputTracker {
                             if (currentTime >= value.clearTime) {
                                 entries.remove();
                             }
-                        }
-
-                        if (showToast) {
-                            NetworkLogService.showToast(toastString);
                         }
 
                         updateThroughput(totalUpload, totalDownload);

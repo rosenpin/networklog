@@ -10,19 +10,20 @@ import android.content.Context;
 import android.util.Log;
 
 public class LogEntry {
-    int uid;
-    String uidString;
-    String in;
-    String out;
-    String proto;
-    String src;
-    String dst;
-    int len;
-    int spt;
-    int dpt;
-    long timestamp;
-    boolean validated;
-    boolean valid;
+    private static HostNames hostNames;
+    public int uid;
+    public String uidString;
+    public String in;
+    public String out;
+    public String proto;
+    public String src;
+    public String dst;
+    public int len;
+    public int spt;
+    public int dpt;
+    public long timestamp;
+    private boolean validated;
+    private boolean valid;
 
     public boolean isValid() {
         if (validated) {
@@ -30,27 +31,27 @@ public class LogEntry {
         }
 
         validated = true;
-        if (StringUtils.contains(in, "{}:=")) {
+        if (in.contains("{}:=")) {
             valid = false;
             return false;
         }
 
-        if (StringUtils.contains(out, "{}:=")) {
+        if (out.contains("{}:=")) {
             valid = false;
             return false;
         }
 
-        if (StringUtils.contains(proto, "{}:=")) {
+        if (proto.contains("{}:=")) {
             valid = false;
             return false;
         }
 
-        if (StringUtils.contains(src, "{}:=")) {
+        if (src.contains("{}:=")) {
             valid = false;
             return false;
         }
 
-        if (StringUtils.contains(dst, "{}:=")) {
+        if (dst.contains("{}:=")) {
             valid = false;
             return false;
         }
@@ -59,17 +60,15 @@ public class LogEntry {
         return true;
     }
 
-    boolean empty() {
+    private boolean empty() {
         return !(in != null || out != null || proto != null || src != null || spt > 0 || dst != null || dpt > 0 || len > 0 | timestamp != 0);
     }
-
-    public static HostNames hostNames;
 
     public void print(Context context) {
         if (!empty())
             MyLog.printSeperator();
         else {
-            MyLog.log(this,"Empty");
+            MyLog.log(this, "Empty");
             return;
         }
         /*if (app.name != null)

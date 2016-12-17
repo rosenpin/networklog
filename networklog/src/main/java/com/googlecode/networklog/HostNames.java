@@ -13,14 +13,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HostNames {
-    private JSONObject jsonData;
     private ArrayList<HashMap<String, String>> hosts;
     private NetworkResolver resolver;
 
     public HostNames(Context context) {
         resolver = new NetworkResolver();
         try {
-            this.jsonData = new JSONObject(loadJSONFromAsset(context));
+            JSONObject jsonData = new JSONObject(loadJSONFromAsset(context));
             JSONArray m_jArry = jsonData.getJSONArray("domains");
             hosts = new ArrayList<>();
             HashMap<String, String> m_li;

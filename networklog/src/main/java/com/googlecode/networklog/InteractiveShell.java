@@ -14,10 +14,10 @@ import java.util.List;
 public class InteractiveShell {
     public static final int IGNORE_OUTPUT = (1 << 0);
     public static final int BACKGROUND = (1 << 1);
-    ShellCommand command;
+    public ShellCommand command;
     String shell;
     String tag;
-    int exitval;
+    public int exitval;
 
     public InteractiveShell() {
         this("sh", "InteractiveShell");

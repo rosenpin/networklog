@@ -6,12 +6,10 @@
 
 package com.googlecode.networklog;
 
-import java.lang.Runnable;
-
 public abstract class NetworkResolverUpdater implements Runnable {
-  protected String resolved;
+    protected String resolved;
 
-  public void setResolved(String resolved) {
-    this.resolved = resolved;
-  }
+    public void setResolved(String resolved) {
+        this.resolved = resolved;
+    }
 }

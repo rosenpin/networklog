@@ -14,12 +14,10 @@ import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.ImageView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,18 +31,17 @@ import java.util.List;
 
 public class ApplicationsTracker {
     public static ArrayList<AppEntry> installedApps;
-    public static HashMap<String, AppEntry> uidMap;
-    public static HashMap<String, AppEntry> packageMap;
-    public static HashMap<String, Drawable> iconMap;
-    public static ProgressDialog dialog;
-    public static int appCount;
-    public static Object dialogLock = new Object();
-    public static Object installedAppsLock = new Object();
-    public static PackageManager pm = null;
-    public static Drawable loading_icon = null;
-    public static PackageIntentReceiver packageIntentReceiver = null;
+    static HashMap<String, AppEntry> uidMap;
+    private static HashMap<String, AppEntry> packageMap;
+    private static HashMap<String, Drawable> iconMap;
+    private static ProgressDialog dialog;
+    private static int appCount;
+    private static final Object dialogLock = new Object();
+    private static final Object installedAppsLock = new Object();
+    private static PackageManager pm = null;
+    private static PackageIntentReceiver packageIntentReceiver = null;
 
-    public static void restoreData(RetainInstanceData data) {
+    private static void restoreData(RetainInstanceData data) {
         synchronized (installedAppsLock) {
             installedApps = data.applicationsTrackerInstalledApps;
         }
@@ -53,66 +50,13 @@ public class ApplicationsTracker {
         packageMap = data.applicationsTrackerPackageMap;
     }
 
-    public static Drawable loadIcon(final Context context, final ImageView view, final String packageName) {
-        if (loading_icon == null) {
-            loading_icon = context.getResources().getDrawable(R.drawable.loading_icon);
-        }
-
-        AppEntry item = packageMap.get(packageName);
-
-        if (item == null) {
-            Log.w("NetworkLog", "Failed to find icon item for " + packageName);
-            return loading_icon;
-        }
-
-        Drawable cached_icon = iconMap.get(packageName);
-        if (cached_icon != null) {
-            return cached_icon;
-        }
-
-        if (MyLog.enabled && MyLog.level >= 3) {
-            MyLog.d(3, "Loading icon for " + item);
-        }
-
-        new Thread(new Runnable() {
-            public void run() {
-                try {
-                    if (pm == null) {
-                        pm = context.getPackageManager();
-                    }
-
-                    final Drawable drawable = pm.getApplicationIcon(packageName);
-                    iconMap.put(packageName, drawable);
-
-          /* Ensure that view hasn't been recycled for another package */
-                    String tag = (String) view.getTag();
-                    if (tag != null && tag.equals(packageName)) {
-            /* Ugh, we have to do it this way instead of using setDrawableByLayerId() since 2.x doesn't support it very well */
-                        NetworkLog.handler.post(new Runnable() {
-                            public void run() {
-                                TransitionDrawable td = new TransitionDrawable(new Drawable[]{loading_icon, drawable});
-                                td.setCrossFadeEnabled(true);
-                                view.setImageDrawable(td);
-                                td.startTransition(750);
-                            }
-                        });
-                    }
-                } catch (Exception e) {
-                    // ignored
-                }
-            }
-        }, "LoadIcon:" + packageName).start();
-
-        return loading_icon;
-    }
-
-    public static void startWatchingPackages(Context context) {
+    private static void startWatchingPackages(Context context) {
         stopWatchingPackages();
         Log.d("NetworkLog", "Now listening for package broadcasts");
         packageIntentReceiver = new PackageIntentReceiver(context);
     }
 
-    public static void stopWatchingPackages() {
+    private static void stopWatchingPackages() {
         if (packageIntentReceiver != null) {
             try {
                 Log.d("NetworkLog", "Stopped listening for package broadcasts");
@@ -124,7 +68,7 @@ public class ApplicationsTracker {
         }
     }
 
-    public static void removeApp(String packageName) {
+    private static void removeApp(String packageName) {
         AppEntry app;
 
         for (Iterator<AppEntry> iterator = installedApps.iterator(); iterator.hasNext(); ) {
@@ -148,7 +92,7 @@ public class ApplicationsTracker {
 
     }
 
-    public static void addApp(Context context, String packageName) {
+    private static void addApp(Context context, String packageName) {
         boolean newApp = false;
 
         if (pm == null) {
@@ -190,10 +134,10 @@ public class ApplicationsTracker {
 
         synchronized (installedAppsLock) {
             if (NetworkLog.data == null) {
-                installedApps = new ArrayList<AppEntry>();
-                uidMap = new HashMap<String, AppEntry>();
-                packageMap = new HashMap<String, AppEntry>();
-                iconMap = new HashMap<String, Drawable>();
+                installedApps = new ArrayList<>();
+                uidMap = new HashMap<>();
+                packageMap = new HashMap<>();
+                iconMap = new HashMap<>();
             } else {
                 restoreData(NetworkLog.data);
                 installedApps.clear();
@@ -209,25 +153,6 @@ public class ApplicationsTracker {
             List<ApplicationInfo> apps = pm.getInstalledApplications(0);
 
             appCount = apps.size();
-
-            if (handler != null) {
-                handler.post(new Runnable() {
-                    public void run() {
-                        MyLog.d("[LoadApps] Showing progress dialog; size: " + appCount);
-
-                        synchronized (dialogLock) {
-                            dialog = new ProgressDialog(context);
-                            dialog.setIndeterminate(false);
-                            dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                            dialog.setMax(appCount);
-                            dialog.setCancelable(false);
-                            dialog.setTitle("");
-                            dialog.setMessage(context.getResources().getString(R.string.loading_apps));
-                            dialog.show();
-                        }
-                    }
-                });
-            }
 
             int count = 0;
 
@@ -337,7 +262,7 @@ public class ApplicationsTracker {
         }
     }
 
-    public static class AppEntry {
+    static class AppEntry {
         String name;
         String nameLowerCase;
         String packageName;
@@ -349,7 +274,7 @@ public class ApplicationsTracker {
         }
     }
 
-    public static class AppCache {
+    private static class AppCache {
         public HashMap<String, String> labelCache;
         private Context context;
         private boolean isDirty = false;
