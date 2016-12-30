@@ -48,6 +48,8 @@ app/src/main/assets/secretconstants.properties
 #IDEA
 .idea
 
+/jni
+
 #Crowdin
 crowdin.yaml
 crowdin-cli.jar
